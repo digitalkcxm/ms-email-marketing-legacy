@@ -10,6 +10,10 @@ class CodeController {
       const codes = await codeModel.getAll()
 
       codes.map(code => {
+        let department = code.department.department
+        delete code.department
+        code.department = department
+
         code.created_at = moment(code.created_at).format('DD/MM/YYYY HH:mm:ss')
         code.updated_at = moment(code.updated_at).format('DD/MM/YYYY HH:mm:ss')
       })
@@ -30,6 +34,9 @@ class CodeController {
       const code = await codeModel.getByID(id)
 
       if (code.length > 0) {
+        let department = code[0].department.department
+        delete code[0].department
+        code[0].department = department
         code[0].created_at = moment(code[0].created_at).format('DD/MM/YYYY HH:mm:ss')
         code[0].updated_at = moment(code[0].updated_at).format('DD/MM/YYYY HH:mm:ss')
       } else {
@@ -52,11 +59,16 @@ class CodeController {
     try {
       if (req.body.name) obj.name = req.body.name
       if (req.body.code) obj.code = req.body.code
+      if(req.body.department) obj.department = { department: req.body.department }
       if (String(req.body.activated) === 'true' || String(req.body.activated) === 'false') obj.activated = req.body.activated
       obj.updated_at = moment().format()
 
       const code = await codeModel.upDate(id, obj)
 
+      let department = code[0].department.department
+      delete code[0].department
+
+      code[0].department = department
       code[0].created_at = moment(code[0].created_at).format('DD/MM/YYYY HH:mm:ss')
       code[0].updated_at = moment(code[0].updated_at).format('DD/MM/YYYY HH:mm:ss')
 
@@ -77,12 +89,17 @@ class CodeController {
     obj.id_company = req.company.id
     obj.name = req.body.name
     obj.code = req.body.code
+    req.body.department ? obj.department = { department: req.body.department } : obj.department = { department: [] }
     obj.created_at = date
     obj.updated_at = date
 
     try {
       const code = await codeModel.create(obj)
 
+      let department = code[0].department.department
+      delete code[0].department
+
+      code[0].department = department
       code[0].created_at = moment(code[0].created_at).format('DD/MM/YYYY HH:mm:ss')
       code[0].updated_at = moment(code[0].updated_at).format('DD/MM/YYYY HH:mm:ss')
 

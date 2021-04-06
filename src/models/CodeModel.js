@@ -3,7 +3,7 @@ const database = require('../config/database/database')
 class CodeModel {
   async getAll() {
     try {
-      return database('code').select('id', 'name', 'activated', 'created_at', 'updated_at')
+      return database('code').select('id', 'name', 'department', 'activated', 'created_at', 'updated_at')
     } catch (err) {
       return err
     }
@@ -11,7 +11,7 @@ class CodeModel {
 
   async getByID(id) {
     try {
-      return database('code').select('id', 'name', 'code', 'activated', 'created_at', 'updated_at').where({ id })
+      return database('code').select('id', 'name', 'code', 'department', 'activated', 'created_at', 'updated_at').where({ id })
     } catch (err) {
       return rerr
     }
@@ -19,7 +19,7 @@ class CodeModel {
 
   async upDate(id, obj) {
     try {
-      return database('code').returning(['id', 'name', 'code', 'activated', 'created_at', 'updated_at']).update(obj).where({ id })
+      return database('code').returning(['id', 'name', 'code', 'department', 'activated', 'created_at', 'updated_at']).update(obj).where({ id })
     } catch (err) {
       return err
     }
@@ -27,7 +27,7 @@ class CodeModel {
 
   async create(obj) {
     try {
-      return database('code').returning(['id', 'name', 'code', 'activated', 'created_at', 'updated_at']).insert(obj)
+      return database('code').returning(['id', 'name', 'code', 'department', 'activated', 'created_at', 'updated_at']).insert(obj)
     } catch (err) {
       return err
     }
