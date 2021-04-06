@@ -14,6 +14,13 @@ class StorageService {
         ACL: (publicAccess) ? 'public-read' : 'private'
       }))
 
+      if (region == 'us-east-1') {
+        return {
+          fileName,
+          url: `https://${bucketName}.s3.amazonaws.com/${dirBucket}/${fileName}`
+        }
+      }
+
       return {
         fileName,
         url: `https://${bucketName}.s3-${region}.amazonaws.com/${dirBucket}/${fileName}`
