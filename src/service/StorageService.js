@@ -26,7 +26,8 @@ class StorageService {
         url: `https://${bucketName}.s3-${region}.amazonaws.com/${dirBucket}/${fileName}`
       }
     } catch (err) {
-      console.log("Error", err);
+      console.log("Error", err)
+      return err
     }
   }
 }

@@ -7,7 +7,7 @@ const codeModel = new CodeModel()
 class CodeController {
   async getAll(req, res) {
     try {
-      const codes = await codeModel.getAll()
+      const codes = await codeModel.getAll(req.company.id)
 
       codes.map(code => {
         let department = code.department.department
@@ -31,7 +31,7 @@ class CodeController {
       return res.status(400).json({ error: 'ID inválido.' })
 
     try {
-      const code = await codeModel.getByID(id)
+      const code = await codeModel.getByID(id, req.company.id)
 
       if (code.length > 0) {
         let department = code[0].department.department
@@ -63,7 +63,7 @@ class CodeController {
       if (String(req.body.activated) === 'true' || String(req.body.activated) === 'false') obj.activated = req.body.activated
       obj.updated_at = moment().format()
 
-      const code = await codeModel.upDate(id, obj)
+      const code = await codeModel.upDate(id, obj, req.company.id)
 
       let department = code[0].department.department
       delete code[0].department

@@ -8,7 +8,7 @@ const storageService = new StorageService()
 class ImageController {
   async getAll(req, res) {
     try {
-      const images = await imageModel.getAll()
+      const images = await imageModel.getAll(req.company.id)
 
       images.map(image => {
         image.created_at = moment(image.created_at).format('DD/MM/YYYY HH:mm:ss')
@@ -28,7 +28,7 @@ class ImageController {
       return res.status(400).json({ error: 'ID inválido.' })
 
     try {
-      const image = await imageModel.getByID(id)
+      const image = await imageModel.getByID(id, req.company.id)
 
       if (image.length > 0) {
         image[0].created_at = moment(image[0].created_at).format('DD/MM/YYYY HH:mm:ss')
@@ -54,7 +54,7 @@ class ImageController {
       if (String(req.body.activated) === 'true' || String(req.body.activated) === 'false') obj.activated = req.body.activated
       obj.updated_at = moment().format()
 
-      const image = await imageModel.upDate(id, obj)
+      const image = await imageModel.upDate(id, obj, req.company.id)
 
       image[0].created_at = moment(image[0].created_at).format('DD/MM/YYYY HH:mm:ss')
       image[0].updated_at = moment(image[0].updated_at).format('DD/MM/YYYY HH:mm:ss')
