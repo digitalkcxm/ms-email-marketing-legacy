@@ -73,7 +73,7 @@ deploy_homol:
           echo " "
 
           echo -e "${TXT_BLUE}******************************************| ${TXT_YELLOW}REMOVENDO APLICACAO EM EXECUSAO"
-          ssh ubuntu@$s 'export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 show '${CI_PROJECT_NAME}'; if [ $? -eq 0 ]; then pm2 delete all; else echo "Nenhum processo encontrado" ; fi'
+          ssh ubuntu@$s 'export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 show '${CI_PROJECT_NAME}'; if [ $? -eq 0 ]; then pm2 delete all; else echo "Nenhum processo encontrado" ; fi'
           echo " "          
 
           echo -e "${TXT_BLUE}******************************************| ${TXT_YELLOW}REALIZANDO O UPLOAD DOS NOVOS ARQUIVOS PARA O SERVIDOR $s"
@@ -85,27 +85,27 @@ deploy_homol:
           echo " "
 
           echo -e "${TXT_BLUE}******************************************| ${TXT_YELLOW}REALIZANDO BUILD E START DA NOVA APLICACAO"
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; cd /srv/$CI_PROJECT_NAME; npm install"
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; cd /srv/$CI_PROJECT_NAME; npm run migrate:latest"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; cd /srv/$CI_PROJECT_NAME; npm install"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; cd /srv/$CI_PROJECT_NAME; npm run migrate:latest"
           echo " "
 
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; cd /srv/$CI_PROJECT_NAME; pm2 start -f src/index.js --name $CI_PROJECT_NAME --log-date-format='DD-MM-YYYY HH:mm Z' --log-type json"
-          ssh ubuntu@$s "sudo env PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin /usr/local/nvm/versions/node/v10.14.1/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; cd /srv/$CI_PROJECT_NAME; pm2 start -f src/index.js --name $CI_PROJECT_NAME --log-date-format='DD-MM-YYYY HH:mm Z' --log-type json"
+          ssh ubuntu@$s "sudo env PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin /usr/local/nvm/versions/node/v14.16.0/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu"
 
           ssh ubuntu@$s "sudo systemctl enable pm2-ubuntu"
           echo " "
 
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 save"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 save"
           echo " "
         
-          ssh ubuntu@$s "sudo env PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin pm2 logrotate -u ubuntu"
+          ssh ubuntu@$s "sudo env PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin pm2 logrotate -u ubuntu"
           echo " "
 
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 set pm2-logrotate:max_size 100M ; pm2 set pm2-logrotate:retain 10 ; pm2 set pm2-logrotate:compress true"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 set pm2-logrotate:max_size 100M ; pm2 set pm2-logrotate:retain 10 ; pm2 set pm2-logrotate:compress true"
           echo " "
 
           echo -e "${TXT_BLUE}******************************************| ${TXT_YELLOW}LISTANDO PROCESSOS DA APLICAO EM EXECUSAO APOS DEPLOY"
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 list"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 list"
           echo " "
 
           ssh ubuntu@$s "sudo netstat -ntpl | grep 5000"
@@ -180,10 +180,10 @@ valida_homol:
           HEALTH_PATH=`vault kv get -field=HEALTHCHECK kv-v1/$ENV/microservicos/$CI_PROJECT_NAME | cut -d "." -f4 | cut -d "/" -f2-6`
 
           echo -e "${TXT_BLUE}******************************************| ${TXT_YELLOW}LISTANDO PROCESSOS DA APLICAO EM EXECUSAO NO SERVIDOR"
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 list" > /dev/null 2>&1
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 list" > /dev/null 2>&1
           echo " "
 
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 show '${CI_PROJECT_NAME}'"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 show '${CI_PROJECT_NAME}'"
           echo " "
 
           ssh ubuntu@$s "sudo netstat -ntpl | grep 5000"
@@ -373,7 +373,7 @@ deploy_prod:
           echo " "
 
           echo -e "${TXT_BLUE}******************************************| ${TXT_YELLOW}REMOVENDO APLICACAO EM EXECUSAO"
-          ssh ubuntu@$s 'export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 show '${CI_PROJECT_NAME}'; if [ $? -eq 0 ]; then pm2 delete all; else echo "Nenhum processo encontrado" ; fi'
+          ssh ubuntu@$s 'export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 show '${CI_PROJECT_NAME}'; if [ $? -eq 0 ]; then pm2 delete all; else echo "Nenhum processo encontrado" ; fi'
           echo " "           
 
           echo -e "${TXT_BLUE}******************************************| ${TXT_YELLOW}REALIZANDO O UPLOAD DOS NOVOS ARQUIVOS PARA O SERVIDOR $s"
@@ -385,27 +385,27 @@ deploy_prod:
           echo " "
 
           echo -e "${TXT_BLUE}******************************************| ${TXT_YELLOW}REALIZANDO BUILD E START DA NOVA APLICACAO"
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; cd /srv/$CI_PROJECT_NAME; npm install"
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; cd /srv/$CI_PROJECT_NAME; npm run migrate:latest"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; cd /srv/$CI_PROJECT_NAME; npm install"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; cd /srv/$CI_PROJECT_NAME; npm run migrate:latest"
           echo " "
 
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; cd /srv/$CI_PROJECT_NAME; pm2 start -f src/index.js --name $CI_PROJECT_NAME --log-date-format='DD-MM-YYYY HH:mm Z' --log-type json"
-          ssh ubuntu@$s "sudo env PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin /usr/local/nvm/versions/node/v10.14.1/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; cd /srv/$CI_PROJECT_NAME; pm2 start -f src/index.js --name $CI_PROJECT_NAME --log-date-format='DD-MM-YYYY HH:mm Z' --log-type json"
+          ssh ubuntu@$s "sudo env PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin /usr/local/nvm/versions/node/v14.16.0/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu"
 
           ssh ubuntu@$s "sudo systemctl enable pm2-ubuntu"
           echo " "
 
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 save"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 save"
           echo " "
 
-          ssh ubuntu@$s "sudo env PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin pm2 logrotate -u ubuntu"
+          ssh ubuntu@$s "sudo env PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin pm2 logrotate -u ubuntu"
           echo " "
 
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 set pm2-logrotate:max_size 100M ; pm2 set pm2-logrotate:retain 10 ; pm2 set pm2-logrotate:compress true"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 set pm2-logrotate:max_size 100M ; pm2 set pm2-logrotate:retain 10 ; pm2 set pm2-logrotate:compress true"
           echo " "
 
           echo -e "${TXT_BLUE}******************************************| ${TXT_YELLOW}LISTANDO PROCESSOS DA APLICAO EM EXECUSAO APOS DEPLOY"
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 list"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 list"
           echo " "
 
           ssh ubuntu@$s "sudo netstat -ntpl | grep 5000"
@@ -488,10 +488,10 @@ valida_prod:
           HEALTH_PATH=`vault kv get -field=HEALTHCHECK kv-v1/$ENV/microservicos/$CI_PROJECT_NAME | cut -d "." -f4 | cut -d "/" -f2-6`
           
           echo -e "${TXT_BLUE}******************************************| ${TXT_YELLOW}LISTANDO PROCESSOS DA APLICAO EM EXECUSAO NO SERVIDOR"
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 list" > /dev/null 2>&1
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 list" > /dev/null 2>&1
           echo " "
 
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 show '${CI_PROJECT_NAME}'"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 show '${CI_PROJECT_NAME}'"
           echo " "
 
           ssh ubuntu@$s "sudo netstat -ntpl | grep 5000"
