@@ -55,12 +55,12 @@ class CompanyController {
     try {
       if (req.body.name) obj.name = req.body.name
       if (req.body.callback) obj.callback = req.body.callback
+      if (req.body.token_broker) obj.token_broker = req.body.token_broker
       if (String(req.body.activated) === 'true' || String(req.body.activated) === 'false') obj.activated = req.body.activated
       obj.updated_at = moment().format()
 
       const company = await companyModel.upDate(id, obj)
 
-      company[0].created_at = moment(company[0].created_at).format('DD/MM/YYYY HH:mm:ss')
       company[0].updated_at = moment(company[0].updated_at).format('DD/MM/YYYY HH:mm:ss')
 
       cacheCompany()
@@ -86,6 +86,7 @@ class CompanyController {
       obj.name = req.body.name
       obj.token = uuid()
       obj.callback = req.body.callback
+      if (req.body.token_broker) obj.token_broker = req.body.token_broker
       obj.created_at = date
       obj.updated_at = date
 
