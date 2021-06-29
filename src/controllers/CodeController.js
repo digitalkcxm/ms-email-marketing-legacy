@@ -1,8 +1,10 @@
 const moment = require('moment')
 const CodeModel = require('../models/CodeModel')
 const { validationResult } = require('express-validator')
+const MSSendGridService = require('../service/MSSendGridService')
 
 const codeModel = new CodeModel()
+const msSendgridService = new MSSendGridService()
 
 class CodeController {
   async getAll(req, res) {
@@ -59,9 +61,25 @@ class CodeController {
     try {
       if (req.body.name) obj.name = req.body.name
       if (req.body.code) obj.code = req.body.code
-      if(req.body.department) obj.department = { department: req.body.department }
+      if (req.body.department) obj.department = { department: req.body.department }
       if (String(req.body.activated) === 'true' || String(req.body.activated) === 'false') obj.activated = req.body.activated
       obj.updated_at = moment().format()
+
+      if (req.company.token_broker && req.body.code) {
+        const getByIDComplete = await codeModel.getByIDComplete(id, req.company.id)
+        
+        if(getByIDComplete.length > 0 && getByIDComplete[0].id_template_ms_broker) {
+          const templateBrokerVersion = await msSendgridService.createVersion(getByIDComplete[0].id_template_ms_broker, req.company.token_broker, getByIDComplete[0].name, req.body.code)
+          obj.thumbnail_url = `https:${templateBrokerVersion.thumbnail_url}`
+        } else {
+          const templateBroker = await msSendgridService.createTemplate(req.company.token_broker, req.body.name)
+          const templateBrokerVersion = await msSendgridService.createVersion(templateBroker.id, req.company.token_broker, req.body.name, req.body.code)
+  
+          obj.id_template_ms_broker = templateBroker.id
+          obj.id_template_broker = templateBroker.sg_template_id
+          obj.thumbnail_url = `https:${templateBrokerVersion.thumbnail_url}`
+        }
+      }
 
       const code = await codeModel.upDate(id, obj, req.company.id)
 
@@ -94,8 +112,16 @@ class CodeController {
     obj.updated_at = date
 
     try {
-      const code = await codeModel.create(obj)
+      if (req.company.token_broker) {
+        const templateBroker = await msSendgridService.createTemplate(req.company.token_broker, req.body.name)
+        const templateBrokerVersion = await msSendgridService.createVersion(templateBroker.id, req.company.token_broker, req.body.name, req.body.code)
 
+        obj.id_template_ms_broker = templateBroker.id
+        obj.id_template_broker = templateBroker.sg_template_id
+        obj.thumbnail_url = `https:${templateBrokerVersion.thumbnail_url}`
+      }
+
+      const code = await codeModel.create(obj)
       let department = code[0].department.department
       delete code[0].department
 
