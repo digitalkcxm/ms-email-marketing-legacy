@@ -36,8 +36,13 @@ class CodeController {
       const code = await codeModel.getByID(id, req.company.id)
 
       if (code.length > 0) {
+        let variable = code[0].variable.variable
         let department = code[0].department.department
+
+        delete code[0].variable
         delete code[0].department
+
+        code[0].variable = variable
         code[0].department = department
         code[0].created_at = moment(code[0].created_at).format('DD/MM/YYYY HH:mm:ss')
         code[0].updated_at = moment(code[0].updated_at).format('DD/MM/YYYY HH:mm:ss')
@@ -62,6 +67,7 @@ class CodeController {
       if (req.body.name) obj.name = req.body.name
       if (req.body.code) obj.code = req.body.code
       if (req.body.department) obj.department = { department: req.body.department }
+      if (req.body.variable) obj.variable = { variable: req.body.variable }
       if (String(req.body.activated) === 'true' || String(req.body.activated) === 'false') obj.activated = req.body.activated
       obj.updated_at = moment().format()
 
@@ -83,9 +89,13 @@ class CodeController {
 
       const code = await codeModel.upDate(id, obj, req.company.id)
 
+      let variable = code[0].variable.variable
       let department = code[0].department.department
+
+      delete code[0].variable
       delete code[0].department
 
+      code[0].variable = variable
       code[0].department = department
       code[0].created_at = moment(code[0].created_at).format('DD/MM/YYYY HH:mm:ss')
       code[0].updated_at = moment(code[0].updated_at).format('DD/MM/YYYY HH:mm:ss')
@@ -108,6 +118,7 @@ class CodeController {
     obj.name = req.body.name
     obj.code = req.body.code
     req.body.department ? obj.department = { department: req.body.department } : obj.department = { department: [] }
+    req.body.variable ? (obj.variable = { variable: req.body.variable }) : { variable: [] }
     obj.created_at = date
     obj.updated_at = date
 
@@ -122,9 +133,14 @@ class CodeController {
       }
 
       const code = await codeModel.create(obj)
+
+      let variable = code[0].variable.variable
       let department = code[0].department.department
+
+      delete code[0].variable
       delete code[0].department
 
+      code[0].variable = variable
       code[0].department = department
       code[0].created_at = moment(code[0].created_at).format('DD/MM/YYYY HH:mm:ss')
       code[0].updated_at = moment(code[0].updated_at).format('DD/MM/YYYY HH:mm:ss')
