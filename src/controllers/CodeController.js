@@ -12,8 +12,13 @@ class CodeController {
       const codes = await codeModel.getAll(req.company.id)
 
       codes.map(code => {
+        let variable = code.variable.variable
         let department = code.department.department
+
+        delete code.variable
         delete code.department
+
+        code.variable = variable
         code.department = department
 
         code.created_at = moment(code.created_at).format('DD/MM/YYYY HH:mm:ss')
