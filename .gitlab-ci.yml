@@ -530,10 +530,10 @@ check_prod:
           HEALTH_PATH=`vault kv get -field=HEALTHCHECK kv-v1/$ENV/microservicos/$CI_PROJECT_NAME | cut -d "." -f4 | cut -d "/" -f2-6`
           
           echo -e "${TXT_BLUE}******************************************| ${TXT_YELLOW}LISTANDO PROCESSOS DA APLICAO EM EXECUSAO NO SERVIDOR"
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 list" > /dev/null 2>&1
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 list" > /dev/null 2>&1
           echo " "
 
-          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v10.14.1/bin; pm2 show '${CI_PROJECT_NAME}'"
+          ssh ubuntu@$s "export PATH=$PATH:/usr/local/nvm/versions/node/v14.16.0/bin; pm2 show '${CI_PROJECT_NAME}'"
           echo " "
 
           ssh ubuntu@$s "sudo netstat -ntpl | grep 5000"
