@@ -123,7 +123,7 @@ class CodeController {
     obj.name = req.body.name
     obj.code = req.body.code
     req.body.department ? obj.department = { department: req.body.department } : obj.department = { department: [] }
-    req.body.variable ? (obj.variable = { variable: req.body.variable }) : { variable: [] }
+    req.body.variable ? (obj.variable = { variable: req.body.variable }) : obj.variable = { variable: [] }
     obj.created_at = date
     obj.updated_at = date
 
