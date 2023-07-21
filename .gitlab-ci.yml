@@ -253,7 +253,7 @@ create-release:
 
 deploy_prod:
   stage: prod
-  image: node:14.16.0
+  image: ubuntu:20.04
   before_script:
     - apt update > /dev/null 2>&1 
     - apt install dos2unix python3 python3-pip jq git unzip zip curl bash openssl wget rsync -y > /dev/null 2>&1
@@ -315,7 +315,7 @@ deploy_prod:
 
 check_prod:
   stage: check_prod
-  image: node:14.16.0
+  image: ubuntu:20.04
   before_script:
     - apt update > /dev/null 2>&1 
     - apt install dos2unix python3 python3-pip jq git unzip zip curl bash openssl wget rsync -y > /dev/null 2>&1
@@ -377,7 +377,7 @@ check_prod:
 
 deploy_bs:
   stage: prod
-  image: node:14.16.0
+  image: ubuntu:20.04
   before_script:
     - apt update > /dev/null 2>&1 
     - apt install dos2unix python3 python3-pip jq git unzip zip curl bash openssl wget rsync -y > /dev/null 2>&1
@@ -440,7 +440,7 @@ deploy_bs:
 
 check_bs:
   stage: check_prod
-  image: node:14.16.0
+  image: ubuntu:20.04
   before_script:
     - apt update > /dev/null 2>&1 
     - apt install dos2unix python3 python3-pip jq git unzip zip curl bash openssl wget rsync -y > /dev/null 2>&1
