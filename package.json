@@ -10,10 +10,6 @@
     "seed:run": "./node_modules/.bin/run.env ./node_modules/.bin/knex seed:run",
     "migrate:rollback": "./node_modules/.bin/run.env ./node_modules/.bin/knex migrate:rollback"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@gitlab.com:digitalk1/backend/microservicos/msemailmarketing.git"
-  },
   "author": "Luiz Duarte",
   "license": "ISC",
   "devDependencies": {
