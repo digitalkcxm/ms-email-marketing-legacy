@@ -1,10 +1,11 @@
 {
-  "name": "msemailmarketing",
-  "version": "1.0.0",
+  "name": "ms-email-marketing-legacy",
+  "version": "0.1.0",
   "description": "Serviço para criação de template de e-mail marketing",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
+    "start:prod": "node src/index.js",
     "test": "NODE_ENV=test NODE_OPTIONS='--experimental-vm-modules' ./node_modules/.bin/run.env jest --detectOpenHandles --forceExit --passWithNoTests",
     "migrate:latest": "./node_modules/.bin/run.env ./node_modules/.bin/knex migrate:latest",
     "seed:run": "./node_modules/.bin/run.env ./node_modules/.bin/knex seed:run",
